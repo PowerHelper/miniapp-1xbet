@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>🎮 لعبة الطيارة - 1XBET</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <!-- إعلان -->
-  <script src='//libtl.com/sdk.js' data-zone='9585009' data-sdk='show_9585009'></script>
+  <script src="//libtl.com/sdk.js" data-zone="9585009" data-sdk="show_9585009"></script>
   <style>
     body {
       font-family: "Tajawal", sans-serif;
@@ -28,7 +28,7 @@
       border-radius: 20px;
       width: 90%;
       max-width: 400px;
-      box-shadow: 0px 0px 20px rgba(0,0,0,0.2);
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
       display: none;
     }
     h1 {
@@ -69,32 +69,56 @@
     <h1>🎯 كود برومو خاص بك!</h1>
     <p class="promo">FLY100</p>
     <p>📩 أدخل بريدك الإلكتروني لبدء اللعب:</p>
-    <input type="email" id="email" placeholder="example@email.com" required>
-    <button onclick="startGame()">🚀 ابدأ اللعب</button>
+    <input type="email" id="email" placeholder="example@email.com" required />
+    <button id="startBtn">🚀 ابدأ اللعب</button>
   </div>
 
   <script>
     Telegram.WebApp.ready();
 
-    // عرض الإعلان أولاً
-    show_9585009().then(() => {
-      document.getElementById("mainContent").style.display = "block";
-    }).catch(() => {
-      alert("❌ الإعلان ماخدمش، حاول تعاود الدخول.");
-    });
+    // محاولة عرض الإعلان
+    function showAd() {
+      return new Promise((resolve, reject) => {
+        if (typeof show_9585009 === "function") {
+          show_9585009()
+            .then(resolve)
+            .catch(reject);
+        } else {
+          // لو الدالة غير موجودة فقط نعرض المحتوى بدون إعلان
+          console.warn("دالة show_9585009 غير موجودة.");
+          resolve();
+        }
+      });
+    }
 
-    function startGame() {
-      const email = document.getElementById("email").value;
-      if (!email || !email.includes('@')) {
+    showAd()
+      .then(() => {
+        document.getElementById("mainContent").style.display = "block";
+      })
+      .catch(() => {
+        alert("❌ الإعلان ماخدمش، حاول تعاود الدخول.");
+        document.getElementById("mainContent").style.display = "block";
+      });
+
+    function validateEmail(email) {
+      // تحقق بسيط من شكل البريد
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return re.test(email);
+    }
+
+    document.getElementById("startBtn").addEventListener("click", () => {
+      const email = document.getElementById("email").value.trim();
+      if (!validateEmail(email)) {
         alert("⚠️ المرجو إدخال بريد إلكتروني صحيح.");
         return;
       }
 
-      // يمكن هنا تسيفط الإيميل لسيرفر ديالك باستعمال fetch()
+      // هنا يمكن إرسال الإيميل للسيرفر إذا أردت، مثال:
+      // fetch('/save-email', { method: 'POST', body: JSON.stringify({ email }), headers: { 'Content-Type': 'application/json' } });
 
-      // إعادة توجيه للرابط ديال لعبة الطيارة
+      // فتح رابط اللعبة في تبويب جديد
       window.open("https://1xbet.com/game/crash", "_blank");
-    }
+    });
   </script>
 </body>
 </html>

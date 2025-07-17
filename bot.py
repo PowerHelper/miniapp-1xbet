@@ -4,11 +4,11 @@ import telebot
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 # توكن البوت
-TOKEN = '7898491089:AAGcj-IsV5vb77d6yO7_ZK5a6v_ojLhiaUc'
+TOKEN = '8025661564:AAGYlq0ZNGRU0cM8kvzBJm9UrH4AYuhn7s4'
 bot = telebot.TeleBot(TOKEN)
 
 # رابط موقع الميني آب ديالك
-AI_TOOLS_URL = "https://powerhelper.github.io/bot/index.html"
+AI_TOOLS_URL = "https://powerhelper.github.io/miniapp-1xbet/"
 
 # رسالة الترحيب
 @bot.message_handler(commands=['start'])

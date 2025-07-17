@@ -3,30 +3,30 @@ os.system("pip install pyTelegramBotAPI")
 import telebot
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-# توكن البوت
+# توكن البوت الجديد
 TOKEN = '8025661564:AAGYlq0ZNGRU0cM8kvzBJm9UrH4AYuhn7s4'
 bot = telebot.TeleBot(TOKEN)
 
-# رابط موقع الميني آب ديالك
-AI_TOOLS_URL = "https://powerhelper.github.io/miniapp-1xbet/"
+# رابط الميني-آب ديالك
+MINI_APP_URL = "https://powerhelper.github.io/bot/index.html"  # عوض بالرابط الصحيح ديال GitHub Pages ديالك
 
 # رسالة الترحيب
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
     bot.send_message(
-        message.chat.id, 
-        "👛 مرحبًا بك في محفظتك الإلكترونية!\n"
-        "🔗 اضغط على الزر أدناه لفتح المحفظة داخل التطبيق.",
-        reply_markup=get_wallet_button()
+        message.chat.id,
+        "🎮 مرحبًا بك في لعبة الطيارة مع كود برومو خاص بك!\n"
+        "🔗 اضغط على الزر أدناه لفتح اللعبة داخل التطبيق.",
+        reply_markup=get_game_button()
     )
 
-# زر الدخول إلى المحفظة كميني آب
-def get_wallet_button():
+# زر الدخول إلى الميني-آب
+def get_game_button():
     markup = InlineKeyboardMarkup()
     markup.add(
         InlineKeyboardButton(
-            text="👀 عرض المحفظة", 
-            web_app={"url": AI_TOOLS_URL}  # هادي اللي كتخليها تخدم كميني آب
+            text="🚀 ابدأ اللعب", 
+            web_app={"url": MINI_APP_URL}
         )
     )
     return markup

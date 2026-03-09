@@ -1,16 +1,17 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>🎮 لعبة الطيارة - 1XBET</title>
+  <title>🎮 Juego del Avión - 1XBET</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <!-- إعلان -->
+
+  <!-- Anuncio -->
   <script src="//libtl.com/sdk.js" data-zone="9585009" data-sdk="show_9585009"></script>
+
   <style>
     body {
-      font-family: "Tajawal", sans-serif;
-      direction: rtl;
+      font-family: Arial, sans-serif;
       text-align: center;
       background: linear-gradient(145deg, #0f2027, #203a43, #2c5364);
       color: white;
@@ -21,6 +22,7 @@
       align-items: center;
       min-height: 100vh;
     }
+
     .container {
       background: white;
       color: #333;
@@ -31,9 +33,11 @@
       box-shadow: 0 0 20px rgba(0,0,0,0.2);
       display: none;
     }
+
     h1 {
       color: #0d47a1;
     }
+
     input {
       width: 100%;
       padding: 12px;
@@ -42,6 +46,7 @@
       border-radius: 8px;
       border: 1px solid #ccc;
     }
+
     button {
       background-color: #4caf50;
       color: white;
@@ -52,9 +57,11 @@
       cursor: pointer;
       width: 100%;
     }
+
     button:hover {
       background-color: #388e3c;
     }
+
     .promo {
       background: #e3f2fd;
       padding: 10px;
@@ -64,19 +71,27 @@
     }
   </style>
 </head>
+
 <body>
+
   <div class="container" id="mainContent">
-    <h1>🎯 كود برومو خاص بك!</h1>
+
+    <h1>🎯 ¡Tu código promocional!</h1>
+
     <p class="promo">FLY100</p>
-    <p>📩 أدخل بريدك الإلكتروني لبدء اللعب:</p>
+
+    <p>📩 Introduce tu correo electrónico para empezar a jugar:</p>
+
     <input type="email" id="email" placeholder="example@email.com" required />
-    <button id="startBtn">🚀 ابدأ اللعب</button>
+
+    <button id="startBtn">🚀 Empezar a jugar</button>
+
   </div>
 
   <script>
     Telegram.WebApp.ready();
 
-    // محاولة عرض الإعلان
+    // Intentar mostrar anuncio
     function showAd() {
       return new Promise((resolve, reject) => {
         if (typeof show_9585009 === "function") {
@@ -84,8 +99,7 @@
             .then(resolve)
             .catch(reject);
         } else {
-          // لو الدالة غير موجودة فقط نعرض المحتوى بدون إعلان
-          console.warn("دالة show_9585009 غير موجودة.");
+          console.warn("La función show_9585009 no existe.");
           resolve();
         }
       });
@@ -96,29 +110,28 @@
         document.getElementById("mainContent").style.display = "block";
       })
       .catch(() => {
-        alert("❌ الإعلان ماخدمش، حاول تعاود الدخول.");
+        alert("❌ El anuncio no se pudo mostrar, intenta nuevamente.");
         document.getElementById("mainContent").style.display = "block";
       });
 
     function validateEmail(email) {
-      // تحقق بسيط من شكل البريد
       const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       return re.test(email);
     }
 
     document.getElementById("startBtn").addEventListener("click", () => {
       const email = document.getElementById("email").value.trim();
+
       if (!validateEmail(email)) {
-        alert("⚠️ المرجو إدخال بريد إلكتروني صحيح.");
+        alert("⚠️ Por favor introduce un correo electrónico válido.");
         return;
       }
 
-      // هنا يمكن إرسال الإيميل للسيرفر إذا أردت، مثال:
-      // fetch('/save-email', { method: 'POST', body: JSON.stringify({ email }), headers: { 'Content-Type': 'application/json' } });
+      // Aquí puedes enviar el email a tu servidor si quieres
 
-      // فتح رابط اللعبة في تبويب جديد
       window.open("https://1xbet.com/game/crash", "_blank");
     });
   </script>
+
 </body>
 </html>

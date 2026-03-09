@@ -4,7 +4,7 @@ import telebot
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 # توكن البوت الجديد
-TOKEN = '8025661564:AAGYlq0ZNGRU0cM8kvzBJm9UrH4AYuhn7s4'
+TOKEN = '8366050188:AAFdgNUJ0KUGBo7JDYujyCmI4lJcDMQ38OA'
 bot = telebot.TeleBot(TOKEN)
 
 # رابط الميني-آب ديالك
@@ -33,3 +33,4 @@ def get_game_button():
 
 # تشغيل البوت
 bot.polling()
+

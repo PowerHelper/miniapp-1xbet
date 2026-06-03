@@ -3,17 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🎁 Tu Destino Mágico</title>
+<title>✨ Tu Destino Mágico ✨</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+<!-- خطوط احترافية -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap" rel="stylesheet">
 
 <!-- مكتبة جوجل لعرض مجسمات 3D -->
 <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.1.1/model-viewer.min.js"></script>
 
-<!-- مكتبة الورق الملون (Confetti) للاحتفال -->
+<!-- مكتبة الاحتفال (Confetti) -->
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
-<!-- Monetag SDK (مصحح ليقرأ من جميع السيرفرات) -->
+<!-- Monetag SDK (مضمون 100%) -->
 <script src="https://libtl.com/sdk.js" data-zone="11092709" data-sdk="show_11092709"></script>
 
 <style>
@@ -21,13 +22,14 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: 'Nunito', sans-serif;
+    font-family: 'Poppins', sans-serif;
   }
 
+  /* ديزاين ليلي احترافي (Dark Neon Theme) */
   body {
-    background: linear-gradient(-45deg, #1a0b2e, #4b1d52, #2a0845, #6441A5);
-    background-size: 400% 400%;
-    animation: gradientBG 15s ease infinite;
+    background: radial-gradient(circle at 50% 0%, #3a1c71, #d76d77, #ffaf7b);
+    background-color: #0f0c29;
+    background-blend-mode: multiply;
     color: #fff;
     min-height: 100vh;
     display: flex;
@@ -36,18 +38,37 @@
     overflow-x: hidden;
   }
 
-  @keyframes gradientBG {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-
   #anime-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 15px;
+    margin-top: 20px;
     z-index: 10;
+  }
+
+  /* منصة متوهجة للشخصية 3D */
+  .pedestal {
+    position: relative;
+    display: flex;
+    justify-content: center;
+  }
+
+  .pedestal::after {
+    content: '';
+    position: absolute;
+    bottom: 10px;
+    width: 150px;
+    height: 20px;
+    background: rgba(0, 255, 255, 0.4);
+    border-radius: 50%;
+    filter: blur(15px);
+    z-index: -1;
+    animation: glowPulse 2s infinite alternate;
+  }
+
+  @keyframes glowPulse {
+    0% { transform: scale(1); opacity: 0.5; }
+    100% { transform: scale(1.2); opacity: 1; }
   }
 
   model-viewer {
@@ -56,8 +77,7 @@
     background-color: transparent;
     border: none;
     outline: none;
-    transition: transform 0.3s ease;
-    filter: drop-shadow(0 0 20px rgba(255, 105, 180, 0.4));
+    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.2));
   }
 
   .clap-anim {
@@ -66,67 +86,48 @@
 
   @keyframes jumpJoy {
     0% { transform: translateY(0); }
-    50% { transform: translateY(-25px) scale(1.05); }
+    50% { transform: translateY(-25px); }
     100% { transform: translateY(0); }
   }
 
+  /* فقاعة النص ستايل عصري زجاجي */
   .bubble {
-    background: rgba(255, 255, 255, 0.95);
-    color: #ff4d6d;
-    padding: 12px 25px;
-    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+    padding: 12px 30px;
+    border-radius: 20px;
     font-size: 18px;
-    font-weight: 900;
-    margin-bottom: 10px;
-    max-width: 90%;
+    font-weight: 700;
+    margin-bottom: 15px;
     text-align: center;
-    position: relative;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-    border: 2px solid #ff9a9e;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    text-shadow: 0 2px 5px rgba(0,0,0,0.5);
   }
 
-  .bubble::after {
-    content: '';
-    position: absolute;
-    bottom: -12px;
-    left: 50%;
-    transform: translateX(-50%);
-    border-width: 12px 12px 0;
-    border-style: solid;
-    border-color: #ff9a9e transparent transparent;
-  }
-  .bubble::before {
-    content: '';
-    position: absolute;
-    bottom: -9px;
-    left: 50%;
-    transform: translateX(-50%);
-    border-width: 10px 10px 0;
-    border-style: solid;
-    border-color: rgba(255, 255, 255, 0.95) transparent transparent;
-    z-index: 1;
-  }
-
+  /* شريط التقدم بتصميم نيون */
   #progress-container {
     width: 90%;
     max-width: 400px;
-    height: 18px;
-    background: rgba(0,0,0,0.4);
+    height: 12px;
+    background: rgba(0,0,0,0.5);
     border-radius: 20px;
     margin: 10px 0;
-    overflow: hidden;
     display: none;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   #progress-bar {
     width: 0%;
     height: 100%;
-    background: linear-gradient(90deg, #ff9a9e, #fecfef, #ff9a9e);
+    background: linear-gradient(90deg, #00f2fe, #4facfe, #00f2fe);
     background-size: 200% 100%;
+    border-radius: 20px;
+    box-shadow: 0 0 15px #00f2fe;
     animation: flowBar 2s linear infinite;
-    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: width 0.5s ease;
   }
 
   @keyframes flowBar {
@@ -134,14 +135,15 @@
     100% { background-position: -100% 0; }
   }
 
+  /* شبكة اللعبة (تصميم زجاجي فاخر) */
   #game-board {
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(12px);
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
     padding: 15px;
     border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    box-shadow: 0 15px 35px rgba(0,0,0,0.6);
-    margin: 5px 0 20px 0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+    margin: 5px 0 25px 0;
     display: none;
     grid-template-columns: repeat(8, 1fr);
     gap: 10px;
@@ -151,7 +153,7 @@
   @media (max-width: 600px) {
     #game-board {
       grid-template-columns: repeat(5, 1fr);
-      gap: 6px;
+      gap: 8px;
       padding: 12px;
     }
   }
@@ -162,7 +164,7 @@
     cursor: pointer;
     position: relative;
     transform-style: preserve-3d;
-    transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+    transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
 
   @media (max-width: 600px) {
@@ -170,9 +172,10 @@
   }
 
   .card:hover {
-    transform: scale(1.05);
+    transform: scale(1.08);
   }
 
+  /* هنا تصلح المشكل: is-flipped كتقلب البطاقة بـ 180 درجة */
   .card.is-flipped {
     transform: rotateY(180deg);
   }
@@ -182,9 +185,9 @@
   }
 
   @keyframes matchGlow {
-    0% { transform: rotateY(180deg) scale(1); box-shadow: 0 0 0 rgba(0, 255, 0, 0); }
-    50% { transform: rotateY(180deg) scale(1.1); box-shadow: 0 0 20px rgba(50, 255, 50, 0.8); }
-    100% { transform: rotateY(180deg) scale(0.95); opacity: 0.8; }
+    0% { transform: rotateY(180deg) scale(1); box-shadow: 0 0 0 rgba(0,0,0,0); }
+    50% { transform: rotateY(180deg) scale(1.15); box-shadow: 0 0 25px #00f2fe; }
+    100% { transform: rotateY(180deg) scale(0.95); opacity: 0.6; }
   }
 
   .card-face {
@@ -197,26 +200,29 @@
     justify-content: center;
     font-size: 26px;
     border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.4);
   }
 
+  /* وجه البطاقة المخفي (علامة الاستفهام) */
   .card-front {
-    background: radial-gradient(circle, #fff, #ffe6f2);
-  }
-
-  .card-back {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    transform: rotateY(180deg);
-    border: 2px solid rgba(255, 255, 255, 0.2);
-  }
-
-  .card-back::after {
-    content: '?';
-    color: rgba(255, 255, 255, 0.7);
+    background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02));
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(5px);
+    color: #fff;
     font-size: 28px;
     font-weight: 900;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
   }
 
+  /* ظهر البطاقة (اللي فيه الشكل - غيبان فاش تكون is-flipped) */
+  .card-back {
+    background: #fff;
+    transform: rotateY(180deg); /* كيخليها تبان فاش البطاقة كدور */
+    border: 2px solid #00f2fe;
+    box-shadow: inset 0 0 15px rgba(0, 242, 254, 0.3);
+  }
+
+  /* زر البداية الاحترافي */
   #start-btn {
     padding: 15px 50px;
     font-size: 22px;
@@ -226,16 +232,18 @@
     background: linear-gradient(45deg, #ff0844 0%, #ffb199 100%);
     color: white;
     cursor: pointer;
-    box-shadow: 0 8px 25px rgba(255, 8, 68, 0.5);
-    margin-top: -10px;
+    box-shadow: 0 10px 30px rgba(255, 8, 68, 0.6);
+    margin-top: 10px;
     z-index: 20;
     transition: all 0.3s;
-    animation: pulse 1.5s infinite;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    animation: pulse 2s infinite;
   }
 
   #start-btn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 12px 30px rgba(255, 8, 68, 0.7);
+    transform: scale(1.1) translateY(-5px);
+    box-shadow: 0 15px 40px rgba(255, 8, 68, 0.8);
   }
 
   @keyframes pulse {
@@ -244,13 +252,14 @@
     100% { transform: scale(1); }
   }
 
+  /* التوقيع ديالك لتحت */
   footer {
     margin-top: auto;
-    padding: 15px;
+    padding: 20px;
     font-size: 15px;
     font-weight: bold;
-    color: rgba(255, 255, 255, 0.6);
-    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 2px;
   }
 </style>
 </head>
@@ -261,14 +270,16 @@
       ¡Hola! ¿Listo para jugar? ✨
     </div>
     
-    <model-viewer 
-      id="anime-model"
-      src="https://modelviewer.dev/shared-assets/models/RobotExpressive.glb" 
-      autoplay
-      interaction-prompt="none"
-      camera-controls="false"
-      disable-zoom>
-    </model-viewer>
+    <div class="pedestal">
+      <model-viewer 
+        id="anime-model"
+        src="https://modelviewer.dev/shared-assets/models/RobotExpressive.glb" 
+        autoplay
+        interaction-prompt="none"
+        camera-controls="false"
+        disable-zoom>
+      </model-viewer>
+    </div>
   </div>
 
   <button id="start-btn">¡Empezar!</button>
@@ -294,11 +305,11 @@
   
   let firstCard = null;
   let secondCard = null;
-  let lockBoard = false;
+  let lockBoard = true; // مسدود حتى يسالي العداد
   let matchesFound = 0;
   const totalMatches = 20;
 
-  // 🔊 دالة نطق الصوت (محمية باش ماتحبسش الكود)
+  // 🔊 دالة نطق الصوت
   function speak(text, lang) {
     try {
       if ('speechSynthesis' in window) {
@@ -309,10 +320,10 @@
         msg.pitch = 1.5;
         window.speechSynthesis.speak(msg);
       }
-    } catch(e) { console.log("Speech error"); }
+    } catch(e) {}
   }
 
-  // ✅ إعلان In-App بعد 5 ثواني (محمي بـ try-catch)
+  // ✅ إعلان In-App بعد 5 ثواني
   setTimeout(() => {
     try {
       if (typeof show_11092709 === "function") {
@@ -331,22 +342,27 @@
     gameBoard.innerHTML = '';
     matchesFound = 0;
     updateProgress();
+    lockBoard = true;
     
-    speak("¡Hola! Encuentra los pares.", "es-ES");
+    speak("Memoriza los pares.", "es-ES");
 
     cardsArray.sort(() => Math.random() - 0.5);
 
     cardsArray.forEach((shape) => {
       const card = document.createElement("div");
-      card.classList.add("card", "is-flipped");
+      // 💡 هنا السر: كنزيدو is-flipped باش البطاقات يبانو محلولين من الدقة الأولى
+      card.classList.add("card", "is-flipped"); 
       card.dataset.shape = shape;
 
+      // وجه البطاقة المخفي (فيه علامة استفهام)
       const cardFront = document.createElement("div");
       cardFront.classList.add("card-face", "card-front");
-      cardFront.innerText = shape;
+      cardFront.innerText = "?";
 
+      // ظهر البطاقة (فيه الشكل دالديسير اللي غيبان دابا)
       const cardBack = document.createElement("div");
       cardBack.classList.add("card-face", "card-back");
+      cardBack.innerText = shape;
 
       card.appendChild(cardFront);
       card.appendChild(cardBack);
@@ -360,10 +376,9 @@
 
   function startCountdown() {
     let timeLeft = 10;
-    lockBoard = true;
     
     let countdownInterval = setInterval(() => {
-      speechBubble.innerHTML = `¡Memoriza rápido! ⏱️ ${timeLeft}s`;
+      speechBubble.innerHTML = `¡Memoriza rápido! ⏱️ <span style="color:#00f2fe;">${timeLeft}s</span>`;
       timeLeft--;
 
       if (timeLeft < 0) {
@@ -374,22 +389,24 @@
   }
 
   function hideAllCards() {
-    speechBubble.innerHTML = "¡A jugar! 🎮";
+    speechBubble.innerHTML = "¡Tu turno! Encuentra los pares 🎮";
     const allCards = document.querySelectorAll('.card');
+    // 💡 هنا كنحيدو is-flipped باش البطاقات يتسدو ويوليو فيهم (؟)
     allCards.forEach(card => card.classList.remove('is-flipped'));
-    lockBoard = false;
+    lockBoard = false; // دابا يقدر يكليكي ويلعب
   }
 
   function flipCard(card) {
     if (lockBoard || card === firstCard || card.classList.contains('matched')) return;
 
-    // ✅ إعلان Monetag مع كل كليكة (محمي بـ try-catch باش عمره يحبس اللعبة)
+    // ✅ إعلان Monetag كليك
     try {
       if (typeof show_11092709 === "function") {
         show_11092709(); 
       }
     } catch(e) {}
 
+    // كنعاودو نحلو البطاقة فاش يكليكي عليها
     card.classList.add('is-flipped');
 
     if (!firstCard) {
@@ -435,23 +452,23 @@
 
   function fireConfetti() {
     try {
-      var duration = 3000;
+      var duration = 4000;
       var end = Date.now() + duration;
 
       (function frame() {
         confetti({
-          particleCount: 5,
+          particleCount: 7,
           angle: 60,
-          spread: 55,
+          spread: 70,
           origin: { x: 0 },
-          colors: ['#ff0844', '#ffb199', '#00f2fe']
+          colors: ['#00f2fe', '#ff0844', '#ffb199', '#ffffff']
         });
         confetti({
-          particleCount: 5,
+          particleCount: 7,
           angle: 120,
-          spread: 55,
+          spread: 70,
           origin: { x: 1 },
-          colors: ['#ff0844', '#ffb199', '#00f2fe']
+          colors: ['#00f2fe', '#ff0844', '#ffb199', '#ffffff']
         });
 
         if (Date.now() < end) {
@@ -470,6 +487,7 @@
   function unflipCards() {
     lockBoard = true;
     setTimeout(() => {
+      // إيلا كانو غالطين، كنحيدو ليهم is-flipped باش يعاودو يتسدو
       firstCard.classList.remove('is-flipped');
       secondCard.classList.remove('is-flipped');
       resetBoard();

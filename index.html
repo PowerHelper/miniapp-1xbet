@@ -7,10 +7,7 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
 
-<!-- مكتبة جوجل لعرض مجسمات 3D الحقيقية -->
-<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.1.1/model-viewer.min.js"></script>
-
-<!-- Monetag SDK (كود الإعلانات - لم يتم لمسه) -->
+<!-- Monetag SDK (مضمون 100%) -->
 <script src="//libtl.com/sdk.js" data-zone="11092709" data-sdk="show_11092709"></script>
 
 <style>
@@ -31,31 +28,41 @@
     overflow-x: hidden;
   }
 
-  /* منطقة الـ 3D والفقاعة */
   #anime-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 20px;
     z-index: 10;
-    height: 250px;
+    height: 300px;
   }
 
-  model-viewer {
-    width: 200px;
-    height: 200px;
-    outline: none;
+  /* تنسيق المربع اللي هاز Sketchfab باش يبان نقي */
+  #anime-model {
+    width: 220px;
+    height: 220px;
+    border-radius: 50%; /* درناه دائري باش يجي زوين */
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 242, 254, 0.4);
+    border: 4px solid #00f2fe;
+    background: #000;
     transition: transform 0.3s ease;
   }
 
-  /* حركة التصفيق (القفز بالفرح) */
+  #anime-model iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  /* حركة القفز بالفرح */
   .clap-anim {
     animation: jumpJoy 0.5s ease-in-out 2;
   }
 
   @keyframes jumpJoy {
     0% { transform: translateY(0); }
-    50% { transform: translateY(-20px); }
+    50% { transform: translateY(-20px) scale(1.05); }
     100% { transform: translateY(0); }
   }
 
@@ -66,7 +73,7 @@
     border-radius: 20px;
     font-size: 16px;
     font-weight: 900;
-    margin-bottom: 5px;
+    margin-bottom: 15px;
     max-width: 90%;
     text-align: center;
     position: relative;
@@ -84,7 +91,6 @@
     border-color: rgba(255, 255, 255, 0.95) transparent transparent;
   }
 
-  /* شبكة اللعبة */
   #game-board {
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(10px);
@@ -96,7 +102,7 @@
     display: none;
     grid-template-columns: repeat(8, 1fr);
     gap: 8px;
-    perspective: 1000px; /* ضروري لقلب البطاقات 3D */
+    perspective: 1000px;
   }
 
   @media (max-width: 600px) {
@@ -107,7 +113,6 @@
     }
   }
 
-  /* تصميم البطاقات المقلوبة (Memory Cards) */
   .card {
     width: 45px;
     height: 45px;
@@ -193,15 +198,11 @@
       ¡Hola! ¿Listo para el reto?
     </div>
     
-    <!-- مجسم 3D حقيقي (Model Viewer) -->
-    <!-- ملاحظة: الرابط لتحت هو مجسم افتراضي، تقدر تبدلو برابط ديال شي بنت أنمي بصيغة .glb -->
-    <model-viewer 
-      id="anime-model"
-      src="https://modelviewer.dev/shared-assets/models/RobotExpressive.glb" 
-      auto-rotate 
-      camera-controls 
-      disable-zoom>
-    </model-viewer>
+    <!-- تم دمج كود Sketchfab هنا بنجاح مع إخفاء أزرار التحكم والواجهة -->
+    <div id="anime-model" class="sketchfab-embed-wrapper">
+      <iframe title="Wolfram without coat for VRchat" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/models/44f413569d2140c2ba4b8b334840bd21/embed?autostart=1&ui_infos=0&ui_controls=0&ui_watermark=0&ui_stop=0&transparent=1"> </iframe>
+    </div>
+
   </div>
 
   <button id="start-btn">¡Empezar!</button>
@@ -216,27 +217,19 @@
   const speechBubble = document.getElementById("speech-bubble");
   const animeModel = document.getElementById("anime-model");
   
-  // 20 شكل مختلف (كل شكل غيتعاود جوج مرات باش يكملو 40)
   const shapes = ['🍎','🍌','🍇','🍉','🍓','🍒','🍑','🥭','🍍','🥥','🥝','🍅','🍆','🥑','🥦','🌽','🥕','🥔','🍠','🥐'];
-  let cardsArray = [...shapes, ...shapes]; // 40 عنصر
+  let cardsArray = [...shapes, ...shapes];
   
   let firstCard = null;
   let secondCard = null;
   let lockBoard = false;
   let matchesFound = 0;
 
-  // ✅ إعلان In-App بعد 5 ثواني (لا يمس)
   setTimeout(() => {
     if (typeof show_11092709 === "function") {
       show_11092709({
         type: 'inApp',
-        inAppSettings: {
-          frequency: 1,
-          capping: 0.2,
-          interval: 60,
-          timeout: 5,
-          everyPage: false
-        }
+        inAppSettings: { frequency: 1, capping: 0.2, interval: 60, timeout: 5, everyPage: false }
       });
     }
   }, 5000);
@@ -247,13 +240,11 @@
     gameBoard.innerHTML = '';
     matchesFound = 0;
     
-    // خلط الأشكال
     cardsArray.sort(() => Math.random() - 0.5);
 
-    // إنشاء 40 بطاقة
     cardsArray.forEach((shape) => {
       const card = document.createElement("div");
-      card.classList.add("card", "is-flipped"); // كيبداو مقلوبين باش يشوفوهم
+      card.classList.add("card", "is-flipped");
       card.dataset.shape = shape;
 
       const cardFront = document.createElement("div");
@@ -275,7 +266,7 @@
 
   function startCountdown() {
     let timeLeft = 10;
-    lockBoard = true; // منع الضغط في فترة الحفظ
+    lockBoard = true;
     
     let countdownInterval = setInterval(() => {
       speechBubble.innerHTML = `¡Memoriza los pares!<br>Tiempo: ${timeLeft}s`;
@@ -292,13 +283,12 @@
     speechBubble.innerHTML = "¡Tu turno! Encuentra los pares.";
     const allCards = document.querySelectorAll('.card');
     allCards.forEach(card => card.classList.remove('is-flipped'));
-    lockBoard = false; // السماح باللعب
+    lockBoard = false;
   }
 
   function flipCard(card) {
     if (lockBoard || card === firstCard || card.classList.contains('matched')) return;
 
-    // ✅ استدعاء إعلان Monetag مع كل كليكة على الصندوق (safe)
     if (typeof show_11092709 === "function") {
       show_11092709().catch(()=>{});
     }
@@ -321,13 +311,11 @@
       disableCards();
       matchesFound++;
       
-      // تفاعل البنت عند التطابق (التصفيق)
       speechBubble.innerHTML = "¡Bravo! 👏👏";
-      animeModel.classList.remove('clap-anim'); // ريستارت للأنيميشن
-      void animeModel.offsetWidth; // تريك ديال CSS باش يعاود الأنيميشن
+      animeModel.classList.remove('clap-anim');
+      void animeModel.offsetWidth;
       animeModel.classList.add('clap-anim');
 
-      // فحص إذا انتهت اللعبة
       if(matchesFound === 20) {
         setTimeout(() => {
           speechBubble.innerHTML = "ايو ايو aregato 🎉🎉";

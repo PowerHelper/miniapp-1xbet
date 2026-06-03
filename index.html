@@ -7,10 +7,8 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
 
-<!-- مكتبة جوجل لعرض مجسمات 3D الحقيقية والمتحركة -->
 <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.1.1/model-viewer.min.js"></script>
 
-<!-- Monetag SDK (مضمون 100% بلا حتى تغيير) -->
 <script src="//libtl.com/sdk.js" data-zone="11092709" data-sdk="show_11092709"></script>
 
 <style>
@@ -39,9 +37,11 @@
     z-index: 10;
   }
 
-  /* هنا حيدنا الكارو والخلفية.. البنت غتبان واقفة فالموقع مباشرة */
+  /* هنا حيدنا الكارو والخلفية.. 
+    الشخصية غتبان واقفة فالموقع مباشرة 
+  */
   model-viewer {
-    width: 300px;
+    width: 250px;
     height: 300px;
     background-color: transparent; /* خلفية شفافة */
     border: none; /* حيدنا الإطار */
@@ -67,7 +67,7 @@
     border-radius: 20px;
     font-size: 16px;
     font-weight: 900;
-    margin-bottom: 0px;
+    margin-bottom: 5px;
     max-width: 90%;
     text-align: center;
     position: relative;
@@ -194,15 +194,12 @@
       ¡Hola! ¿Listo para el reto?
     </div>
     
-    <!-- 
-      هنا حطينا البنت 3D 
-      خاصية autoplay: هي اللي كتخليها تتحرك وتهضر (إيلا كان المجسم ديالك فيه حركة)
-      خاصية camera-controls: حيدناها باش الزائر مايبقاش يدورها بصبعه بالغلط ويصدق مخسر اللعبة
-    -->
     <model-viewer 
       id="anime-model"
       src="https://modelviewer.dev/shared-assets/models/RobotExpressive.glb" 
       autoplay
+      interaction-prompt="none"
+      camera-controls="false"
       disable-zoom>
     </model-viewer>
   </div>
@@ -227,7 +224,7 @@
   let lockBoard = false;
   let matchesFound = 0;
 
-  // إعلان بعد 5 ثواني
+  // إعلان In-App بعد 5 ثواني
   setTimeout(() => {
     if (typeof show_11092709 === "function") {
       show_11092709({
@@ -292,7 +289,7 @@
   function flipCard(card) {
     if (lockBoard || card === firstCard || card.classList.contains('matched')) return;
 
-    // إعلان مع كل كليكة (الأرباح)
+    // إعلان مع كل كليكة باش تضمن الأرباح ديالك
     if (typeof show_11092709 === "function") {
       show_11092709().catch(()=>{});
     }
@@ -316,7 +313,7 @@
       matchesFound++;
       
       speechBubble.innerHTML = "¡Bravo! 👏👏";
-      // الأنيميشن ديال التنقاز ملي كيربح
+      // الأنيميشن ديال التنقاز ملي كيلقى جوج متشابهين
       animeModel.classList.remove('clap-anim');
       void animeModel.offsetWidth;
       animeModel.classList.add('clap-anim');

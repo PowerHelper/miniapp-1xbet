@@ -7,8 +7,10 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
 
+<!-- مكتبة جوجل لعرض مجسمات 3D الحقيقية والمتحركة -->
 <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.1.1/model-viewer.min.js"></script>
 
+<!-- Monetag SDK (مضمون 100% بلا حتى تغيير) -->
 <script src="//libtl.com/sdk.js" data-zone="11092709" data-sdk="show_11092709"></script>
 
 <style>
@@ -37,19 +39,15 @@
     z-index: 10;
   }
 
-  /* هنا حيدنا الكارو والخلفية.. 
-    الشخصية غتبان واقفة فالموقع مباشرة 
-  */
   model-viewer {
     width: 250px;
     height: 300px;
-    background-color: transparent; /* خلفية شفافة */
-    border: none; /* حيدنا الإطار */
+    background-color: transparent;
+    border: none;
     outline: none;
     transition: transform 0.3s ease;
   }
 
-  /* حركة القفز بالفرح ملي كيلقاو 2 بحال بحال */
   .clap-anim {
     animation: jumpJoy 0.5s ease-in-out 2;
   }
@@ -85,7 +83,6 @@
     border-color: rgba(255, 255, 255, 0.95) transparent transparent;
   }
 
-  /* شبكة اللعبة */
   #game-board {
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(10px);
@@ -224,6 +221,18 @@
   let lockBoard = false;
   let matchesFound = 0;
 
+  // 🔊 دالة نطق الصوت (Text-to-Speech)
+  function speak(text, lang) {
+    if ('speechSynthesis' in window) {
+      let msg = new SpeechSynthesisUtterance();
+      msg.text = text;
+      msg.lang = lang; // 'es-ES' للصبليونية، 'ja-JP' لليابانية
+      msg.rate = 1.1; // سرعة الهضرة
+      msg.pitch = 1.5; // ترقيق الصوت باش يبان بحال شي بنت
+      window.speechSynthesis.speak(msg);
+    }
+  }
+
   // إعلان In-App بعد 5 ثواني
   setTimeout(() => {
     if (typeof show_11092709 === "function") {
@@ -240,6 +249,9 @@
     gameBoard.innerHTML = '';
     matchesFound = 0;
     
+    // 🔊 نطق الترحيب بالصبليونية ملي يبدا اللعب
+    speak("¡Hola! ¿Listo para el reto?", "es-ES");
+
     cardsArray.sort(() => Math.random() - 0.5);
 
     cardsArray.forEach((shape) => {
@@ -289,7 +301,6 @@
   function flipCard(card) {
     if (lockBoard || card === firstCard || card.classList.contains('matched')) return;
 
-    // إعلان مع كل كليكة باش تضمن الأرباح ديالك
     if (typeof show_11092709 === "function") {
       show_11092709().catch(()=>{});
     }
@@ -313,7 +324,10 @@
       matchesFound++;
       
       speechBubble.innerHTML = "¡Bravo! 👏👏";
-      // الأنيميشن ديال التنقاز ملي كيلقى جوج متشابهين
+      
+      // 🔊 نطق برافو ملي يلقاهم صحاح
+      speak("¡Bravo!", "es-ES");
+
       animeModel.classList.remove('clap-anim');
       void animeModel.offsetWidth;
       animeModel.classList.add('clap-anim');
@@ -321,6 +335,8 @@
       if(matchesFound === 20) {
         setTimeout(() => {
           speechBubble.innerHTML = "ايو ايو aregato 🎉🎉";
+          // 🔊 نطق النهاية باليابانية
+          speak("Ayo ayo, arigato gozaimasu", "ja-JP");
         }, 500);
       }
     } else {

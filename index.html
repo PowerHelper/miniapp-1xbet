@@ -5,10 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>🎁 Tu Destino</title>
 
-<!-- خطوط جوجل لجمالية أكبر -->
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
 
-<!-- Monetag SDK (كود الإعلانات ديالك - ماتقيسوش) -->
+<!-- مكتبة جوجل لعرض مجسمات 3D الحقيقية -->
+<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.1.1/model-viewer.min.js"></script>
+
+<!-- Monetag SDK (كود الإعلانات - لم يتم لمسه) -->
 <script src="//libtl.com/sdk.js" data-zone="11092709" data-sdk="show_11092709"></script>
 
 <style>
@@ -29,44 +31,46 @@
     overflow-x: hidden;
   }
 
-  /* منطقة الأنمي والفقاعة */
+  /* منطقة الـ 3D والفقاعة */
   #anime-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 20px;
     z-index: 10;
+    height: 250px;
   }
 
-  #anime-img {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 4px solid #ff4d6d;
-    box-shadow: 0 0 20px rgba(255, 77, 109, 0.6);
-    animation: float 3s ease-in-out infinite;
+  model-viewer {
+    width: 200px;
+    height: 200px;
+    outline: none;
+    transition: transform 0.3s ease;
   }
 
-  @keyframes float {
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
-    100% { transform: translateY(0px); }
+  /* حركة التصفيق (القفز بالفرح) */
+  .clap-anim {
+    animation: jumpJoy 0.5s ease-in-out 2;
+  }
+
+  @keyframes jumpJoy {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+    100% { transform: translateY(0); }
   }
 
   .bubble {
     background: rgba(255, 255, 255, 0.95);
     color: #333;
-    padding: 15px 25px;
+    padding: 10px 20px;
     border-radius: 20px;
-    font-size: 18px;
-    font-weight: 700;
-    margin-bottom: 15px;
+    font-size: 16px;
+    font-weight: 900;
+    margin-bottom: 5px;
     max-width: 90%;
     text-align: center;
     position: relative;
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    transition: 0.3s;
   }
 
   .bubble::after {
@@ -80,75 +84,82 @@
     border-color: rgba(255, 255, 255, 0.95) transparent transparent;
   }
 
-  #timer {
-    color: #ff4d6d;
-    font-size: 24px;
-    font-weight: 900;
-  }
-
-  /* شبكة الصناديق (40 صندوق) */
+  /* شبكة اللعبة */
   #game-board {
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(10px);
-    padding: 20px;
+    padding: 15px;
     border-radius: 15px;
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    margin: 20px 0;
-    display: none; /* مخفي حتى يبدأ اللعب */
+    margin: 10px 0;
+    display: none;
     grid-template-columns: repeat(8, 1fr);
     gap: 8px;
-    transition: transform 0.8s ease;
+    perspective: 1000px; /* ضروري لقلب البطاقات 3D */
   }
 
-  /* شكل وتجاوب الشبكة فالتليفون */
   @media (max-width: 600px) {
     #game-board {
-      grid-template-columns: repeat(5, 1fr); /* 5 أعمدة فالتليفون باش يجي داكشي هو هداك */
+      grid-template-columns: repeat(5, 1fr);
       gap: 5px;
       padding: 10px;
     }
-    .box {
-      width: 55px !important;
-      height: 55px !important;
-      font-size: 24px !important;
+  }
+
+  /* تصميم البطاقات المقلوبة (Memory Cards) */
+  .card {
+    width: 45px;
+    height: 45px;
+    cursor: pointer;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+  }
+
+  @media (max-width: 600px) {
+    .card {
+      width: 55px;
+      height: 55px;
     }
   }
 
-  .box {
-    width: 45px;
-    height: 45px;
-    background: linear-gradient(135deg, #ff9a9e, #fecfef);
-    border-radius: 8px;
+  .card.is-flipped {
+    transform: rotateY(180deg);
+  }
+
+  .card-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 20px;
-    cursor: pointer;
+    font-size: 24px;
+    border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    transition: all 0.3s;
   }
 
-  .box:hover {
-    transform: scale(1.1);
+  .card-front {
+    background: linear-gradient(135deg, #a18cd1, #fbc2eb);
+    color: transparent;
   }
 
-  /* حركة التخربيق (Shuffle) */
-  .shuffle-anim {
-    animation: shake 0.8s ease-in-out;
+  .card-front::after {
+    content: '🎁';
+    color: white;
+    font-size: 20px;
   }
 
-  @keyframes shake {
-    0% { transform: rotate(0deg) scale(1); }
-    25% { transform: rotate(5deg) scale(0.9); }
-    50% { transform: rotate(-5deg) scale(1.05); }
-    75% { transform: rotate(5deg) scale(0.9); }
-    100% { transform: rotate(0deg) scale(1); }
+  .card-back {
+    background: linear-gradient(135deg, #ff9a9e, #fecfef);
+    transform: rotateY(180deg);
   }
 
   #start-btn {
     padding: 15px 40px;
-    font-size: 22px;
+    font-size: 20px;
     font-weight: bold;
     border: none;
     border-radius: 50px;
@@ -168,11 +179,10 @@
 
   footer {
     margin-top: auto;
-    padding: 20px;
-    font-size: 16px;
+    padding: 15px;
+    font-size: 14px;
     font-weight: bold;
     color: rgba(255, 255, 255, 0.5);
-    letter-spacing: 1px;
   }
 </style>
 </head>
@@ -180,10 +190,18 @@
 
   <div id="anime-container">
     <div class="bubble" id="speech-bubble">
-      ¡Hola! ¿Listo para jugar? <br>Encuentra el diamante 💎
+      ¡Hola! ¿Listo para el reto?
     </div>
-    <!-- تقدر تبدل هاد الرابط بأي صورة أنمي بغيتيها -->
-    <img id="anime-img" src="https://i.imgur.com/k2Bbd3g.png" alt="Anime Girl">
+    
+    <!-- مجسم 3D حقيقي (Model Viewer) -->
+    <!-- ملاحظة: الرابط لتحت هو مجسم افتراضي، تقدر تبدلو برابط ديال شي بنت أنمي بصيغة .glb -->
+    <model-viewer 
+      id="anime-model"
+      src="https://modelviewer.dev/shared-assets/models/RobotExpressive.glb" 
+      auto-rotate 
+      camera-controls 
+      disable-zoom>
+    </model-viewer>
   </div>
 
   <button id="start-btn">¡Empezar!</button>
@@ -196,12 +214,18 @@
   const startBtn = document.getElementById("start-btn");
   const gameBoard = document.getElementById("game-board");
   const speechBubble = document.getElementById("speech-bubble");
+  const animeModel = document.getElementById("anime-model");
   
-  const TOTAL_BOXES = 40;
-  let boxes = [];
-  let isPlayable = false;
+  // 20 شكل مختلف (كل شكل غيتعاود جوج مرات باش يكملو 40)
+  const shapes = ['🍎','🍌','🍇','🍉','🍓','🍒','🍑','🥭','🍍','🥥','🥝','🍅','🍆','🥑','🥦','🌽','🥕','🥔','🍠','🥐'];
+  let cardsArray = [...shapes, ...shapes]; // 40 عنصر
+  
+  let firstCard = null;
+  let secondCard = null;
+  let lockBoard = false;
+  let matchesFound = 0;
 
-  // ✅ إعلان In-App بعد 5 ثواني (ماتقاصش)
+  // ✅ إعلان In-App بعد 5 ثواني (لا يمس)
   setTimeout(() => {
     if (typeof show_11092709 === "function") {
       show_11092709({
@@ -217,31 +241,33 @@
     }
   }, 5000);
 
-  // إعداد اللعبة
   function initGame() {
     startBtn.style.display = "none";
     gameBoard.style.display = "grid";
     gameBoard.innerHTML = '';
-    boxes = [];
-
-    // إنشاء 40 صندوق (39 خاويين، 1 فيه الجائزة)
-    let contentArray = Array(TOTAL_BOXES - 1).fill('🎁');
-    contentArray.push('💎');
+    matchesFound = 0;
     
-    // خلط أماكن الجائزة فالأول
-    contentArray.sort(() => Math.random() - 0.5);
+    // خلط الأشكال
+    cardsArray.sort(() => Math.random() - 0.5);
 
-    contentArray.forEach((item, index) => {
-      let box = document.createElement("div");
-      box.className = "box";
-      // فالبداية غنوريوهم شنو كاين لداخل
-      box.innerText = item;
-      box.dataset.content = item;
-      box.dataset.index = index;
+    // إنشاء 40 بطاقة
+    cardsArray.forEach((shape) => {
+      const card = document.createElement("div");
+      card.classList.add("card", "is-flipped"); // كيبداو مقلوبين باش يشوفوهم
+      card.dataset.shape = shape;
+
+      const cardFront = document.createElement("div");
+      cardFront.classList.add("card-face", "card-front");
+
+      const cardBack = document.createElement("div");
+      cardBack.classList.add("card-face", "card-back");
+      cardBack.innerText = shape;
+
+      card.appendChild(cardFront);
+      card.appendChild(cardBack);
       
-      box.addEventListener("click", () => handleBoxClick(box));
-      gameBoard.appendChild(box);
-      boxes.push(box);
+      card.addEventListener("click", () => flipCard(card));
+      gameBoard.appendChild(card);
     });
 
     startCountdown();
@@ -249,66 +275,86 @@
 
   function startCountdown() {
     let timeLeft = 10;
-    isPlayable = false; // اليوزر مايقدرش يكليكي دابا
+    lockBoard = true; // منع الضغط في فترة الحفظ
     
     let countdownInterval = setInterval(() => {
-      speechBubble.innerHTML = `¡Memoriza dónde está el 💎!<br>Tiempo: <span id="timer">${timeLeft}s</span>`;
+      speechBubble.innerHTML = `¡Memoriza los pares!<br>Tiempo: ${timeLeft}s`;
       timeLeft--;
 
       if (timeLeft < 0) {
         clearInterval(countdownInterval);
-        shuffleBoxes();
+        hideAllCards();
       }
     }, 1000);
   }
 
-  function shuffleBoxes() {
-    speechBubble.innerHTML = "¡Mezclando! 🌪️<br>¿Dónde está el 💎?";
-    
-    // إخفاء كلشي (كلشي كيولي صناديق مسدودة)
-    boxes.forEach(box => {
-      box.innerText = '📦';
-      box.style.background = 'linear-gradient(135deg, #a18cd1, #fbc2eb)';
-    });
-
-    // حركة التخربيق (Animation)
-    gameBoard.classList.add('shuffle-anim');
-
-    setTimeout(() => {
-      // إعادة خلط القيم داخليا باش اليوزر مايعرفش فين مشات
-      let newValues = boxes.map(b => b.dataset.content).sort(() => Math.random() - 0.5);
-      boxes.forEach((box, i) => {
-        box.dataset.content = newValues[i];
-      });
-
-      gameBoard.classList.remove('shuffle-anim');
-      speechBubble.innerHTML = "¡Tu turno! 🤔<br>Adivina dónde está.";
-      isPlayable = true; // دابا يقدر يكليكي
-    }, 800);
+  function hideAllCards() {
+    speechBubble.innerHTML = "¡Tu turno! Encuentra los pares.";
+    const allCards = document.querySelectorAll('.card');
+    allCards.forEach(card => card.classList.remove('is-flipped'));
+    lockBoard = false; // السماح باللعب
   }
 
-  function handleBoxClick(box) {
-    if (!isPlayable) return; // الا كليكا قبل الوقت مايوقع والو
+  function flipCard(card) {
+    if (lockBoard || card === firstCard || card.classList.contains('matched')) return;
 
-    // ✅ استدعاء إعلان Monetag فكل ضغطة (safe)
+    // ✅ استدعاء إعلان Monetag مع كل كليكة على الصندوق (safe)
     if (typeof show_11092709 === "function") {
       show_11092709().catch(()=>{});
     }
 
-    // إظهار النتيجة
-    let result = box.dataset.content;
-    box.innerText = result;
+    card.classList.add('is-flipped');
 
-    if (result === '💎') {
-      box.style.background = '#ffd700'; // لون ذهبي للربح
-      box.style.boxShadow = '0 0 20px #ffd700';
-      speechBubble.innerHTML = "¡GANASTE! 🎉<br>¡Eres increíble!";
-      isPlayable = false; // وقف اللعب ملي يربح
-    } else {
-      box.style.background = '#ff4d6d'; // لون أحمر للخسارة
-      box.innerText = '❌';
-      speechBubble.innerHTML = "¡Oh no! 😢<br>Ese no es. Intenta otra vez.";
+    if (!firstCard) {
+      firstCard = card;
+      return;
     }
+
+    secondCard = card;
+    checkForMatch();
+  }
+
+  function checkForMatch() {
+    let isMatch = firstCard.dataset.shape === secondCard.dataset.shape;
+
+    if (isMatch) {
+      disableCards();
+      matchesFound++;
+      
+      // تفاعل البنت عند التطابق (التصفيق)
+      speechBubble.innerHTML = "¡Bravo! 👏👏";
+      animeModel.classList.remove('clap-anim'); // ريستارت للأنيميشن
+      void animeModel.offsetWidth; // تريك ديال CSS باش يعاود الأنيميشن
+      animeModel.classList.add('clap-anim');
+
+      // فحص إذا انتهت اللعبة
+      if(matchesFound === 20) {
+        setTimeout(() => {
+          speechBubble.innerHTML = "ايو ايو aregato 🎉🎉";
+        }, 500);
+      }
+    } else {
+      unflipCards();
+    }
+  }
+
+  function disableCards() {
+    firstCard.classList.add('matched');
+    secondCard.classList.add('matched');
+    resetBoard();
+  }
+
+  function unflipCards() {
+    lockBoard = true;
+    setTimeout(() => {
+      firstCard.classList.remove('is-flipped');
+      secondCard.classList.remove('is-flipped');
+      resetBoard();
+    }, 1000);
+  }
+
+  function resetBoard() {
+    [firstCard, secondCard, lockBoard] = [null, null, false];
   }
 
   startBtn.addEventListener("click", initGame);

@@ -13,8 +13,8 @@
 <!-- مكتبة الورق الملون (Confetti) للاحتفال -->
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
-<!-- Monetag SDK (مضمون 100%) -->
-<script src="//libtl.com/sdk.js" data-zone="11092709" data-sdk="show_11092709"></script>
+<!-- Monetag SDK (مصحح ليقرأ من جميع السيرفرات) -->
+<script src="https://libtl.com/sdk.js" data-zone="11092709" data-sdk="show_11092709"></script>
 
 <style>
   * {
@@ -24,7 +24,6 @@
     font-family: 'Nunito', sans-serif;
   }
 
-  /* خلفية متحركة واحترافية */
   body {
     background: linear-gradient(-45deg, #1a0b2e, #4b1d52, #2a0845, #6441A5);
     background-size: 400% 400%;
@@ -58,7 +57,7 @@
     border: none;
     outline: none;
     transition: transform 0.3s ease;
-    filter: drop-shadow(0 0 20px rgba(255, 105, 180, 0.4)); /* توهج حول الشخصية */
+    filter: drop-shadow(0 0 20px rgba(255, 105, 180, 0.4));
   }
 
   .clap-anim {
@@ -71,7 +70,6 @@
     100% { transform: translateY(0); }
   }
 
-  /* فقاعة هضرة احترافية (ستايل أنمي) */
   .bubble {
     background: rgba(255, 255, 255, 0.95);
     color: #ff4d6d;
@@ -109,7 +107,6 @@
     z-index: 1;
   }
 
-  /* شريط التقدم */
   #progress-container {
     width: 90%;
     max-width: 400px;
@@ -137,7 +134,6 @@
     100% { background-position: -100% 0; }
   }
 
-  /* شبكة اللعبة */
   #game-board {
     background: rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(12px);
@@ -181,7 +177,6 @@
     transform: rotateY(180deg);
   }
 
-  /* أنيميشن ملي كيلقاو 2 متشابهين */
   .card.matched {
     animation: matchGlow 0.8s ease forwards;
   }
@@ -209,7 +204,6 @@
     background: radial-gradient(circle, #fff, #ffe6f2);
   }
 
-  /* ظهر البطاقة (تصميم الغموض) */
   .card-back {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     transform: rotateY(180deg);
@@ -279,7 +273,6 @@
 
   <button id="start-btn">¡Empezar!</button>
 
-  <!-- شريط التقدم -->
   <div id="progress-container">
     <div id="progress-bar"></div>
   </div>
@@ -305,32 +298,36 @@
   let matchesFound = 0;
   const totalMatches = 20;
 
-  // 🔊 دالة نطق الصوت
+  // 🔊 دالة نطق الصوت (محمية باش ماتحبسش الكود)
   function speak(text, lang) {
-    if ('speechSynthesis' in window) {
-      let msg = new SpeechSynthesisUtterance();
-      msg.text = text;
-      msg.lang = lang;
-      msg.rate = 1.1;
-      msg.pitch = 1.5;
-      window.speechSynthesis.speak(msg);
-    }
+    try {
+      if ('speechSynthesis' in window) {
+        let msg = new SpeechSynthesisUtterance();
+        msg.text = text;
+        msg.lang = lang;
+        msg.rate = 1.1;
+        msg.pitch = 1.5;
+        window.speechSynthesis.speak(msg);
+      }
+    } catch(e) { console.log("Speech error"); }
   }
 
-  // إعلان In-App بعد 5 ثواني
+  // ✅ إعلان In-App بعد 5 ثواني (محمي بـ try-catch)
   setTimeout(() => {
-    if (typeof show_11092709 === "function") {
-      show_11092709({
-        type: 'inApp',
-        inAppSettings: { frequency: 1, capping: 0.2, interval: 60, timeout: 5, everyPage: false }
-      });
-    }
+    try {
+      if (typeof show_11092709 === "function") {
+        show_11092709({
+          type: 'inApp',
+          inAppSettings: { frequency: 1, capping: 0.2, interval: 60, timeout: 5, everyPage: false }
+        });
+      }
+    } catch(e) {}
   }, 5000);
 
   function initGame() {
     startBtn.style.display = "none";
     gameBoard.style.display = "grid";
-    progressContainer.style.display = "block"; // إظهار شريط التقدم
+    progressContainer.style.display = "block";
     gameBoard.innerHTML = '';
     matchesFound = 0;
     updateProgress();
@@ -346,7 +343,7 @@
 
       const cardFront = document.createElement("div");
       cardFront.classList.add("card-face", "card-front");
-      cardFront.innerText = shape; // الشكل كيبان من القدام
+      cardFront.innerText = shape;
 
       const cardBack = document.createElement("div");
       cardBack.classList.add("card-face", "card-back");
@@ -386,10 +383,12 @@
   function flipCard(card) {
     if (lockBoard || card === firstCard || card.classList.contains('matched')) return;
 
-    // إعلان Monetag مع كل كليكة (مضمون 100%)
-    if (typeof show_11092709 === "function") {
-      show_11092709().catch(()=>{});
-    }
+    // ✅ إعلان Monetag مع كل كليكة (محمي بـ try-catch باش عمره يحبس اللعبة)
+    try {
+      if (typeof show_11092709 === "function") {
+        show_11092709(); 
+      }
+    } catch(e) {}
 
     card.classList.add('is-flipped');
 
@@ -421,7 +420,7 @@
         setTimeout(() => {
           speechBubble.innerHTML = "¡Ayo ayo, arigato! 🏆";
           speak("Ayo ayo, arigato gozaimasu", "ja-JP");
-          fireConfetti(); // إطلاق الورق الملون فالنهاية
+          fireConfetti();
         }, 500);
       }
     } else {
@@ -434,31 +433,32 @@
     progressBar.style.width = percentage + "%";
   }
 
-  // دالة إطلاق الاحتفال (Confetti)
   function fireConfetti() {
-    var duration = 3000;
-    var end = Date.now() + duration;
+    try {
+      var duration = 3000;
+      var end = Date.now() + duration;
 
-    (function frame() {
-      confetti({
-        particleCount: 5,
-        angle: 60,
-        spread: 55,
-        origin: { x: 0 },
-        colors: ['#ff0844', '#ffb199', '#00f2fe']
-      });
-      confetti({
-        particleCount: 5,
-        angle: 120,
-        spread: 55,
-        origin: { x: 1 },
-        colors: ['#ff0844', '#ffb199', '#00f2fe']
-      });
+      (function frame() {
+        confetti({
+          particleCount: 5,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0 },
+          colors: ['#ff0844', '#ffb199', '#00f2fe']
+        });
+        confetti({
+          particleCount: 5,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1 },
+          colors: ['#ff0844', '#ffb199', '#00f2fe']
+        });
 
-      if (Date.now() < end) {
-        requestAnimationFrame(frame);
-      }
-    }());
+        if (Date.now() < end) {
+          requestAnimationFrame(frame);
+        }
+      }());
+    } catch(e) {}
   }
 
   function disableCards() {
